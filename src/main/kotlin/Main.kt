@@ -11,13 +11,6 @@ fun main() {
 }
 
 fun solve() {
-    out.println(lcm(2, 6))
-}
-
-fun lcm(a: Long, b: Long): Long {
-    tailrec fun gcd(a: Long, b: Long): Long = if (b == 0L) a else gcd(b, a % b)
-
-    return a / gcd(a, b) * b
 }
 
 fun readInteger() = Integer.parseInt(br.readLine())
