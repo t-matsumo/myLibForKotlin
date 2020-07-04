@@ -26,7 +26,7 @@
         {
             "label": "gradlew: test all",
             "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
+            "command": "./gradlew",
             "group": "test",
             "args": ["test", "--info"],
             "presentation": {
@@ -37,7 +37,7 @@
         {
             "label": "gradlew: test current file",
             "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
+            "command": "./gradlew",
             "group": "test",
             "args": ["test", "--tests", "${fileBasenameNoExtension}", "--info"],
             "presentation": {
