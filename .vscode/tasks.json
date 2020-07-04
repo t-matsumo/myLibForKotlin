@@ -28,7 +28,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "group": "test",
-            "args": ["test"],
+            "args": ["test", "--info"],
             "presentation": {
                 "showReuseMessage": true,
                 "clear": true
@@ -39,7 +39,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "group": "test",
-            "args": ["test", "--tests", "${fileBasenameNoExtension}"],
+            "args": ["test", "--tests", "${fileBasenameNoExtension}", "--info"],
             "presentation": {
                 "showReuseMessage": true,
                 "clear": true
