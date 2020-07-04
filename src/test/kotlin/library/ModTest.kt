@@ -1,38 +1,58 @@
 package library
 
 import org.junit.jupiter.api.Assertions.assertEquals
-// import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.Test
-// import kotlin.test.BeforeTest
 import org.junit.jupiter.api.Nested
-// import org.junit.jupiter.api.assertAll
-// import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
-// import org.junit.jupiter.api.assertTimeout
-// import org.junit.jupiter.api.assertTimeoutPreemptively
+import org.junit.jupiter.api.AfterEach
 
 import library.ModInt
 import library.pow
 import library.inverse
 
 class ModTest {
-    // @Nested
-    // inner class ModIntTest {
-        @Test
-        fun unaryMinus() {
-            val value = 2L
-            val modInt = ModInt(value)
-            assertEquals(-value, (-modInt).x)
-        }
+    val MOD = 17L // prime number.
+    val value = MOD + 1L
+    val otherValue = MOD + 2L
+    val modInt = ModInt(value, MOD)
+    val other = ModInt(otherValue, MOD)
 
-        @Test
-        fun plus() {
-            val value = 1L
-            val modInt = ModInt(value)
-            val otherValue = 2L
-            val other = ModInt(otherValue)
-            assertEquals(value + otherValue, (modInt + other).x)
-        }
+    fun Long.mod() = ((this % MOD) + MOD) % MOD // mod is 0 or grater than 0, always.
 
-    // }
+    @AfterEach
+    fun afterEach() {
+        assertEquals(value.mod(), modInt.x) // modInt is imutable
+    }
+
+    @Test
+    fun construct() {
+        assertEquals(value.mod(), modInt.x)
+    }
+
+    @Test
+    fun unaryMinus() {
+        assertEquals((-value).mod(), (-modInt).x)
+    }
+
+    @Test
+    fun plus() {
+        assertEquals((value.mod() + otherValue.mod()).mod(), (modInt + other).x)
+    }
+
+    @Test
+    fun minus() {
+        assertEquals((value.mod() - otherValue.mod()).mod(), (modInt - other).x)
+    }
+
+    @Test
+    fun times() {
+        assertEquals((value.mod() * otherValue.mod()).mod(), (modInt * other).x)
+    }
+
+    @Test
+    fun div() {
+        assertEquals((value.mod() * inverse(otherValue, MOD).mod()).mod(), (modInt / other).x)
+    }
+
+    // TODO: inverse, pow, minus value
 }
