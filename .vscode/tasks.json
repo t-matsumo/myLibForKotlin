@@ -32,6 +32,9 @@
             "presentation": {
                 "showReuseMessage": true,
                 "clear": true
+            },
+            "windows": {
+                "command": "./gradlew.bat"
             }
         },
         {
@@ -43,6 +46,9 @@
             "presentation": {
                 "showReuseMessage": true,
                 "clear": true
+            },
+            "windows": {
+                "command": "./gradlew.bat"
             }
         }
     ]
