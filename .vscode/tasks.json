@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Kotlin :Build Main.kt",
+            "type": "shell",
+            "command": "kotlinc",
+            "group": "build",
+            "args": [
+                "./src/main/kotlin/Main.kt",
+                "-include-runtime", "-d", "./out/Main.jar",
+                "-language-version", "1.3",
+                "-XXLanguage:+InlineClasses"
+            ]
+        },
+        {
+            "label": "Kotlin: run MainKt",
+            "type": "shell",
+            "command": "java",
+            "group": "build",
+            "args": ["-cp", "./out/Main.jar", "MainKt", "-Xss256m"],
+            "dependsOn": "Kotlin :Build Main.kt"
+        },
+        {
+            "label": "gradlew: test all",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "group": "test",
+            "args": ["test"],
+            "presentation": {
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "gradlew: test current file",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "group": "test",
+            "args": ["test", "--tests", "${fileBasenameNoExtension}"],
+            "presentation": {
+                "showReuseMessage": true,
+                "clear": true
+            }
+        }
+    ]
+}
