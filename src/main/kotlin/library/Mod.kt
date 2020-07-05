@@ -25,7 +25,9 @@ class ModInt(x: Long, val MOD: Long = 1000000007L) {
         return ModInt(value, MOD)
     }
 
-    operator fun div(other: ModInt) = this * other.inverse()
+    operator fun div(other: ModInt)
+            = if (other.x == 0L) throw ArithmeticException("/ by zero") else this * other.inverse()
+
 
     override fun toString() = x.toString()
 
