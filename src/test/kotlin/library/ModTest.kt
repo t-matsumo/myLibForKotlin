@@ -23,7 +23,7 @@ class ModTest {
         fun Long.mod() = ((this % MOD) + MOD) % MOD // mod is 0 or grater than 0, always.
 
         @AfterEach
-        fun afterEach() = assertEquals(value.mod(), modInt.x) // modInt is imutable
+        fun afterEach() = assertEquals(value.mod(), modInt.x) // modInt is immutable
 
         @Test
         fun construct() {
