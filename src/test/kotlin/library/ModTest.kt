@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalStateException
 
 class ModTest {
     val MOD = 17L // prime number.
@@ -123,15 +122,17 @@ class ModTest {
         }
 
         @Nested
-        inner class InverseTest {
+        inner class PowTest {
+            // delegate to modPow
             @Test
-            fun inverse() = assertEquals(modInverse(value, MOD), modInt.inverse().value)
+            fun pow() = assertEquals(modPow(2, 10, MOD), ModInt.valueOf(2L, MOD).modPow(10L).value)
+        }
 
+        @Nested
+        inner class InverseTest {
+            // delegate to modInverse
             @Test
-            fun inverseForZero() {
-                val exception = assertThrows<IllegalStateException> { zero.inverse() }
-                assertEquals("Inverse is not exist for zero", exception.message)
-            }
+            fun inverse() = assertEquals(modInverse(1024L, MOD), ModInt.valueOf(1024L, MOD).inverse().value)
         }
     }
 

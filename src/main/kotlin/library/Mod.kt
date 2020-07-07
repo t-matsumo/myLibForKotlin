@@ -1,7 +1,5 @@
 package library
 
-import java.math.BigInteger
-
 /**
  * always positive number (Use for minus)
  */
@@ -31,44 +29,19 @@ class ModInt private constructor(val value: Long, val mod: Long) {
 
     operator fun times(other: ModInt) = ModInt((value * other.value) % mod, mod)
 
-    operator fun div(other: ModInt)
-            = if (other.value == 0L) throw ArithmeticException("/ by zero") else this * other.inverse()
+    operator fun div(other: ModInt): ModInt {
+        if (other.value == 0L) throw ArithmeticException("/ by zero")
+        val value = (this.value * modInverse(other.value, mod)) % mod
+        return ModInt(value, mod)
+    }
 
     override fun toString() = value.toString()
 
-
     /** O(log(n)): n >= 0 */
-    fun modPow(n: Long): ModInt {
-        var ret = 1L
-        var x = this.value
-        var k = n
-        while (k > 0) {
-            if ((k and 1L) == 1L) { ret = (ret * x) % mod }
-            x = (x * x) % mod
-            k = k shr 1
-        }
-        return ModInt(ret, mod)
-    }
+    fun modPow(n: Long) = ModInt(modPow(this.value, n, mod), mod)
 
     /**  O(log(MOD)) */
-    fun inverse(): ModInt {
-        if (this.value == 0L) throw java.lang.IllegalStateException("Inverse is not exist for zero")
-
-        var a = this.value
-        var b = mod
-        var u = 1L
-        var v = 0L
-        while (b > 0) {
-            var t = a / b
-            a -= t * b
-            a = b.also { b = a } // swap(a, b)
-            u -= t * v
-            u = v.also { v = u } // swap(u, v)
-        }
-        u %= mod
-        if (u < 0) u += mod
-        return ModInt(u, mod)
-    }
+    fun inverse() = ModInt(modInverse(this.value, mod), mod)
 }
 
 /** O(log(m)) mod <= 2_147_483_648, n >= 0 */
