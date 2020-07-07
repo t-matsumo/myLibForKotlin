@@ -35,7 +35,7 @@ fun solve() {
         out.println(d)
 
         var e = ModInt.valueOf(100)
-        for (i in 0 until 100000) {
+        for (i in 0 until 10000000) {
             e = e / a
         }
         out.println(e)

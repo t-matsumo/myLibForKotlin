@@ -138,26 +138,47 @@ class ModTest {
     @Nested
     inner class ModPowTest {
         @Test
-        fun modPowNZero() = assertEquals(0, modPow(0, 10, MOD))
+        fun nIsZero() {
+            assertEquals(0, modPow(0, 10, MOD))
+            assertEquals(0, modPow(0, 11, MOD))
+        }
 
         @Test
-        fun modPowNOne() = assertEquals(1, modPow(1, 10, MOD))
+        fun nIsOne() {
+            assertEquals(1, modPow(1, 10, MOD))
+            assertEquals(1, modPow(1, 11, MOD))
+        }
 
         @Test
-        fun modPowOdd() = assertModPow(3)
+        fun negativeN() {
+            assertEquals(1024L.mod(), modPow(-2, 10, MOD))
+            assertEquals((-2048L).mod(), modPow(-2, 11, MOD))
+        }
 
         @Test
-        fun modPowEven() = assertModPow(2)
+        fun positiveExponent() = assertEquals(1024L.mod(), modPow(2, 10, MOD))
 
-//        @Test
-//        fun modPowMinus() = assertModPow(-2)
+        @Test
+        fun zeroExponent() {
+            assertEquals(1, modPow(2, 0, MOD))
+            assertEquals(1, modPow(3, 0, MOD))
+        }
 
-        private fun assertModPow(base: Long) {
-            var expected = 1L
-            for (i in 0..10L) {
-                assertEquals(expected, modPow(base, i, MOD))
-                expected = (expected * base).mod()
-            }
+        @Test
+        fun negativeExponent() {
+            val exception = assertThrows<ArithmeticException> { modPow(2, -1, MOD) }
+            assertEquals("The power of negative exponent is not integer.", exception.message)
+
+            val exception2 = assertThrows<ArithmeticException> { modPow(2, -10, MOD) }
+            assertEquals("The power of negative exponent is not integer.", exception2.message)
+        }
+
+        @Test
+        fun zeroOrNegativeMod() {
+            val exception = assertThrows<ArithmeticException> { modPow(2, 10, 0) }
+            assertEquals("MOD <= 0", exception.message)
+            val exception2 = assertThrows<ArithmeticException> { modPow(2, 10, -10) }
+            assertEquals("MOD <= 0", exception2.message)
         }
     }
 

@@ -1,9 +1,11 @@
 package library
 
+import java.math.BigInteger
+
 /**
  * always positive number (Use for minus)
  */
-class ModInt constructor(val value: Long, val mod: Long) {
+class ModInt private constructor(val value: Long, val mod: Long) {
     companion object {
         @JvmStatic
         fun valueOf(value: Long, mod: Long = 1000000007L): ModInt {
@@ -71,8 +73,12 @@ class ModInt constructor(val value: Long, val mod: Long) {
 
 /** O(log(m)) mod <= 2_147_483_648, n >= 0 */
 fun modPow(n: Long, m: Long, MOD: Long = (1L shl 31)): Long {
+    if (m < 0) throw ArithmeticException("The power of negative exponent is not integer.")
+    if (MOD <= 0) throw ArithmeticException("MOD <= 0")
+
     var ret = 1L
-    var x = n % MOD
+    var x = (n % MOD)
+    if (x < 0) x += MOD
     var k = m
     while (k > 0) {
         if ((k and 1L) == 1L) { ret = (ret * x) % MOD }
