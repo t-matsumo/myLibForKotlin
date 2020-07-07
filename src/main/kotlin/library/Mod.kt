@@ -95,7 +95,7 @@ fun modInverse(n: Long, mod: Long = 1000000007L): Long {
     var a = n % mod
     if (a < 0) a += mod
 
-    if (a == 0L) throw java.lang.IllegalStateException("Inverse is not exist for zero")
+    if (a == 0L) throw ArithmeticException("n is not relatively prime to mod")
 
     var b = mod
     var u = 1L

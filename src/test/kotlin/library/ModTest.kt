@@ -184,6 +184,24 @@ class ModTest {
 
     @Nested
     inner class ModInverseTest {
+        @Test
+        fun nIsNotRelativelyPrimeToMod() {
+            val exception = assertThrows<ArithmeticException> { modInverse(0, MOD) }
+            assertEquals("n is not relatively prime to mod", exception.message)
+            val exception2 = assertThrows<ArithmeticException> { modInverse(MOD * 3, MOD) }
+            assertEquals("n is not relatively prime to mod", exception2.message)
+        }
 
+        @Test
+        fun nIsNegative() {
+            assertEquals(modPow(-10, MOD - 2, MOD), modInverse(-10, MOD))
+            assertEquals(modPow(-11, MOD - 2, MOD), modInverse(-11, MOD))
+        }
+
+        @Test
+        fun nIsPositive() {
+            assertEquals(modPow(10, MOD - 2, MOD), modInverse(10, MOD))
+            assertEquals(modPow(11, MOD - 2, MOD), modInverse(11, MOD))
+        }
     }
 }
