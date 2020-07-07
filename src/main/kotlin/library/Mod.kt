@@ -74,7 +74,7 @@ fun modInverse(n: Long, mod: Long = 1000000007L): Long {
     var u = 1L
     var v = 0L
     while (b > 0) {
-        var t = a / b
+        val t = a / b
         a -= t * b
         a = b.also { b = a } // swap(a, b)
         u -= t * v
