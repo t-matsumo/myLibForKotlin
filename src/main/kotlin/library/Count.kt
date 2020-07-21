@@ -4,7 +4,7 @@ package library
 fun <T>elementCountMap(list: List<T>): Map<T, Int> {
     val countMap = mutableMapOf<T, Int>()
     for (e in list) {
-        countMap[e] = (countMap[e] ?: 0) + 1
+        countMap.merge(e, 1) { oldValue, value -> oldValue + value }
     }
     return countMap
 }
