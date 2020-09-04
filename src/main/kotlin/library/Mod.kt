@@ -1,5 +1,8 @@
 package library
 
+const val mod = 1000000007L
+fun Long.mod() = ((this % mod) + mod) % mod
+
 /**
  * always positive number (Use for minus)
  */
