@@ -22,10 +22,10 @@ class SegmentTree(length: Int) {
 
     fun debug() {
         for ((v, i ) in tree.withIndex()) {
-            out.print(v to i)
-            if (v in listOf(0, 2, 6, 14)) out.println()
+            print(v to i)
+            if (v in listOf(0, 2, 6, 14)) println()
         }
-        out.println()
+        println()
     }
 
     fun update(i: Int, v: Char) {

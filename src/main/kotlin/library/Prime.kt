@@ -65,3 +65,34 @@ fun devisor(n: Long): List<Long> {
     devisor.sort()
     return devisor
 }
+
+/** 前処理：O(nlog(logn)) 素数列挙:O(log(n)) */
+fun primeListForQuery() {
+    /** O(nlog(logn)) // n * n <= Int.MAX_VALUE, n <= 10^6 */
+    fun primeDivTable(n: Int): IntArray {
+        // iをふるい落とす値をtable[i]に入れる
+        // iが素数のときはtable[i] = i
+        val table = IntArray(n + 1) { it }
+        if (n >= 0) table[0] = 0
+        if (n >= 1) table[1] = 1
+        var i = 2
+        while (i * i <= n) {
+            if (table[i] == i) {
+                for (j in (i + i)..n step i) { table[j] = i }
+            }
+            i++
+        }
+        return table
+    }
+
+    val primeDivTable = primeDivTable(1000000)
+
+    // ここから下の処理がlog(n)でできる(試し割りが不要なため)
+    val primeList = mutableListOf<Int>() // 求めたいもの
+    var target = 100 // 構成する素数を求めたい値
+    while (target > 1) {
+        val prime = primeDivTable[target]
+        primeList.add(prime)
+        while (target % prime == 0) target /= prime
+    }
+}
