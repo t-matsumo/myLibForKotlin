@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
 import library.gcd
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Nested
 
 class GcdLcmTest {
      @Test fun testGcd() {
@@ -21,5 +23,14 @@ class GcdLcmTest {
           // // assertEquals(gcd(0, 10), 0)
           // assertEquals(gcd(10, 0), 0)
           // assertEquals(gcd(0, 0), 0)
+     }
+
+     @Nested
+     inner class ExtGcdTest() {
+          @Test
+          fun testExtGcd() {
+               assertEquals(Triple(1, 2, -1).toString(), extGcd(3L, 5L).toString())
+               assertEquals(Triple(2, -1, 1).toString(), extGcd(10, 12).toString())
+          }
      }
 }
