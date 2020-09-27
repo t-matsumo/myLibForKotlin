@@ -26,6 +26,6 @@ class FenwickTreeTest {
         fTree.add(2, 3)
         assertEquals(8, fTree.sum(1, 3))
 
-        assertEquals(10, fTree.sum(3, 5))
+        assertEquals(9, fTree.sum(3, 5))
     }
 }
