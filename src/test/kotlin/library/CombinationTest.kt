@@ -3,8 +3,6 @@ package library
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
-import library.pascalTriangleTable
-
 class CombinationTest {
     @Test fun testPascalTriangle() {
         val table = pascalTriangleTable()

@@ -7,6 +7,7 @@ val out = PrintWriter(System.out)
 
 fun main() {
     br.use { out.use {
+//        repeat(readInteger()) { solve() }
         solve()
         out.flush()
     } }
