@@ -1,27 +1,33 @@
 package library
 
 /** 0-indexed */
-class FenwickTree(private val n: Int) {
-    private val data = LongArray(n)
+class FenwickTree(originalData: LongArray) {
+    private val data = originalData.copyOf()
 
     /** O(n)*/
-    constructor(data: LongArray) : this(data.size) { build(data) }
+    init {
+        for (i in 1..this.data.size) {
+            val p = i + (i and -i)
+
+            // オーバーフローしないでー(> <) check()の条件どうすればいいんだろう...
+            if (p <= this.data.size) data[p - 1] += data[i - 1]
+        }
+    }
+
+    /** O(n)*/
+    constructor(n: Int) : this(LongArray((n)))
 
     /** O(log(n))*/
     fun add(i: Int, x: Long) {
-        assert(i in 0 until n)
         var p = i + 1
-        while (p <= n) {
+        while (p <= data.size) {
             data[p - 1] += x
             p += (p and -p)
         }
     }
 
     /** O(log(n))*/
-    fun sum(l: Int, r: Int): Long {
-        assert(l in 0..r && r <= n)
-        return sum(r) - sum(l)
-    }
+    fun sum(l: Int, r: Int) = sum(r) - sum(l)
 
     private fun sum(r: Int): Long {
         var i = r
@@ -31,13 +37,5 @@ class FenwickTree(private val n: Int) {
             i -= (i and -i)
         }
         return s
-    }
-
-    private fun build(rawData: LongArray) {
-        System.arraycopy(rawData, 0, data, 0, n)
-        for (i in 1..n) {
-            val p = i + (i and -i)
-            if (p <= n) data[p - 1] += data[i - 1]
-        }
     }
 }
