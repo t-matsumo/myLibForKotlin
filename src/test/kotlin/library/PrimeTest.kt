@@ -17,7 +17,7 @@ class PrimeTest {
         @Test
         fun primeTest() {
             for (i in 0 until 30) {
-                assertEquals(isPrimes[i], isPrime(i.toLong()))
+                assertEquals(isPrimes[i], i.toLong().isPrime())
             }
         }
     }

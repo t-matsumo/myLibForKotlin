@@ -1,13 +1,12 @@
 package library
 
-/** O(n^(1/2)) // n * n <= Long.MAX_VALUE n <= 10^8 or more */
-fun isPrime(n: Long): Boolean {
-    if (n == 1L) { return false }
-    if (n == 2L) { return true }
-    if (n % 2L == 0L) { return false }
+/** O(n^(1/2)) */
+fun Long.isPrime(): Boolean {
+    if (this == 2L) return true
+    if (this <= 1L || this % 2L == 0L) return false
     var i = 3L
-    while (i * i <= n) {
-        if (n % i == 0L) { return false }
+    while (i <= this / i) {
+        if (this % i == 0L) return false
         i += 2L
     }
     return true
