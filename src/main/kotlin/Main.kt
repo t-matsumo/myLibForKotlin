@@ -6,11 +6,13 @@ val br = BufferedReader(InputStreamReader(System.`in`))
 val out = PrintWriter(System.out)
 
 fun main() {
-    br.use { out.use {
+    br.use {
+        out.use {
 //        repeat(readInteger()) { solve() }
-        solve()
-        out.flush()
-    } }
+            solve()
+            out.flush()
+        }
+    }
 }
 
 fun solve() {

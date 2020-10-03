@@ -1,7 +1,7 @@
 package library
 
-const val mod = 1000000007L
-fun Long.mod() = ((this % mod) + mod) % mod
+const val MOD = 1_000_000_007L
+fun Long.mod() = (this % MOD).let { if (it < 0) it + MOD else it }
 
 /**
  * always positive number (Use for minus)
