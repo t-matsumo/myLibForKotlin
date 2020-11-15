@@ -1,12 +1,14 @@
 package library
 
+import kotlin.math.pow
+
 /**
  * 3分探索（下に凸な関数の最小値を求める例）
  * O(log(n))
  */
 fun ternarySearch() {
     // 下に凸な関数
-    fun f(t: Double) = t + p / 2.0.pow(t / 1.5)
+    fun f(t: Double) = t + 1.0 / 2.0.pow(t / 1.5)
 
     var l = 0.0
     var r = 1e18
