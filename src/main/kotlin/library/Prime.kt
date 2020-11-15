@@ -61,7 +61,6 @@ fun devisor(n: Long): List<Long> {
         }
         i++
     }
-    devisor.sort()
     return devisor
 }
 
