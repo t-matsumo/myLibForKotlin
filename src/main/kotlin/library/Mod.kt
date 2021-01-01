@@ -87,3 +87,27 @@ fun modInverse(n: Long, mod: Long = 1000000007L): Long {
     if (u < 0) u += mod
     return u
 }
+
+/**
+ * solve ax ≡ b (mod m)
+ *
+ * return x, or -1 if x is not exist.
+ */
+fun solveAXCongruentBModM(a: Long, b: Long, mod: Long, valueOfNotExist: Long = -1): Long {
+    val g = gcd(a, mod)
+
+    // ax - b ≡ 0 (mod m)
+    // ga'x - b = ygm'　※g = gcd(a, m)
+    // b = g(a'x - ym') ※bはgの倍数でないければいけない
+    if (b % g != 0L) return valueOfNotExist // 解なし
+
+    // b = g(a'x - ym')の両辺をgで割ると
+    // b / g = a'x - ym'
+    // a'x - b / g = ym'
+    // a'x ≡ b / g (mod m') ※a'とm'は互いに素なのでa'の逆元が求められる
+    // x ≡　(b / g) * (a'^-1) (mod m')
+    val ag = a / g
+    val bg = b / g
+    val modg = mod / g
+    return ((bg * modInverse(ag, modg)) % modg).let { if (it < 0) it + modg else it }
+}
