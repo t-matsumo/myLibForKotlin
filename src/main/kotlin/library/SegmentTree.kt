@@ -1,9 +1,11 @@
 package library
 
-// 未検証（きっとあってるはず、そのうち汎用的になるかも？）
-// お気持ち実装なので、RMQでないのは気にしないww
-class SegmentTree(length: Int) {
-    private val tree: Array<Set<Char>>
+/**
+ * e: 単位元 a op e = e op a = a
+ * op: 結合法則を満たす演算　(a op b) op c = a op (b op c)
+ */
+class SegmentTree<T>(length: Int, private val e: T, private val op: (T, T) -> T) {
+    private val tree: MutableList<T>
     private val leafCount: Int
 
     init {
@@ -17,33 +19,37 @@ class SegmentTree(length: Int) {
 
         if (length == 0) cap = 0
         leafCount = last
-        tree = Array(cap) { emptySet<Char>() }
+        tree = MutableList(cap) { e }
     }
 
-    fun debug() {
-        for ((v, i ) in tree.withIndex()) {
-            print(v to i)
-            if (v in listOf(0, 2, 6, 14)) println()
-        }
-        println()
+    constructor(list: List<T>, e: T, op: (T, T) -> T) : this(list.size, e, op) {
+        for ((i, a) in list.withIndex()) this.update(i, a)
     }
 
-    fun update(i: Int, v: Char) {
+    /**
+     * 0-indexed
+     */
+    fun update(i: Int, v: T) {
         var nodeIndex = tree.size - leafCount + i
-        tree[nodeIndex] = setOf(v)
+        tree[nodeIndex] = v
         while (nodeIndex > 0) {
             nodeIndex = (nodeIndex - 1) / 2
-            val a = tree[nodeIndex * 2 + 1]
-            val b = tree[nodeIndex * 2 + 2]
-            tree[nodeIndex] = a union b
+            val index = nodeIndex * 2 + 1
+            tree[nodeIndex] = op(tree[index], tree[index + 1])
         }
     }
 
-    fun query(l: Int, r: Int, nodeIndex: Int = 0, currentL: Int = 0, currentR: Int = leafCount): Set<Char> {
-        if (currentR <= l || r <= currentL) return emptySet()
+    /**
+     * 0-indexed
+     * [l, r)の要素にopを適用した値を返す
+     */
+    fun query(l: Int, r: Int, nodeIndex: Int = 0, currentL: Int = 0, currentR: Int = leafCount): T {
+        if (currentR <= l || r <= currentL) return e
         if (l <= currentL &&  currentR <= r)  return tree[nodeIndex]
-        val a = query(l, r, nodeIndex * 2 + 1, currentL, (currentL + currentR) / 2)
-        val b = query(l, r, nodeIndex * 2 + 2, (currentL + currentR) / 2, currentR)
-        return a union b
+        val mid = (currentL + currentR) / 2
+        val childLeftNodeIndex = nodeIndex * 2 + 1
+        val a = query(l, r, childLeftNodeIndex, currentL, mid)
+        val b = query(l, r, childLeftNodeIndex + 1, mid, currentR)
+        return op(a, b)
     }
 }
