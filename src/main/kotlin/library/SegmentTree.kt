@@ -8,6 +8,7 @@ class SegmentTree<T>(length: Int, private val e: T, private val op: (T, T) -> T)
     private val tree: MutableList<T>
     private val leafCount: Int
 
+    /** O(n) */
     init {
         var cap = 0
         var last = 1
@@ -22,13 +23,12 @@ class SegmentTree<T>(length: Int, private val e: T, private val op: (T, T) -> T)
         tree = MutableList(cap) { e }
     }
 
+    /** O(nlog(n)) */
     constructor(list: List<T>, e: T, op: (T, T) -> T) : this(list.size, e, op) {
         for ((i, a) in list.withIndex()) this.update(i, a)
     }
 
-    /**
-     * 0-indexed
-     */
+    /** 0-indexed O(log(n)) */
     fun update(i: Int, v: T) {
         var nodeIndex = tree.size - leafCount + i
         tree[nodeIndex] = v
@@ -42,6 +42,7 @@ class SegmentTree<T>(length: Int, private val e: T, private val op: (T, T) -> T)
     /**
      * 0-indexed
      * [l, r)の要素にopを適用した値を返す
+     * O(log(n))
      */
     fun query(l: Int, r: Int, nodeIndex: Int = 0, currentL: Int = 0, currentR: Int = leafCount): T {
         if (currentR <= l || r <= currentL) return e
