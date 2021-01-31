@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class FenwickTreeTest {
     @Test
     fun sumTest() {
-        val fTree = FenwickTree(longArrayOf(1, 2, 3, 4, 5))
+        val fTree = FenwickTree(listOf(1L, 2L, 3L, 4L, 5L), 0L, { a: Long, b: Long -> a + b }, { a: Long, b: Long -> a - b })
         assertEquals(0, fTree.sum(0, 0))
         assertEquals(1, fTree.sum(0, 1))
         assertEquals(3, fTree.sum(0, 2))
@@ -19,7 +19,7 @@ class FenwickTreeTest {
 
     @Test
     fun addTest() {
-        val fTree = FenwickTree(longArrayOf(1, 2, 3, 4, 5))
+        val fTree = FenwickTree(listOf(1L, 2L, 3L, 4L, 5L), 0L, { a: Long, b: Long -> a + b }, { a: Long, b: Long -> a - b })
         fTree.add(0, 1)
         assertEquals(4, fTree.sum(0, 2))
 
