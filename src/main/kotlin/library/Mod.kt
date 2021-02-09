@@ -6,6 +6,8 @@ fun Long.mod() = (this % MOD).let { if (it < 0) it + MOD else it }
 /**
  * always positive number (Use for minus)
  */
+fun Long.toModInt(mod: Long = 1000000007L) = ModInt.valueOf(this, mod)
+fun Int.toModInt(mod: Long = 1000000007L) = ModInt.valueOf(this.toLong(), mod)
 class ModInt private constructor(val value: Long, val mod: Long) {
     companion object {
         @JvmStatic
