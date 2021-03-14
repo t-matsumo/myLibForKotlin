@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.3.71"
 }
 
 group = "org.example"
@@ -25,8 +25,12 @@ tasks {
         }
     }
 
-    // config JVM target to 1.8 for kotlin compilation tasks
     withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
+            // config JVM target to 1.8 to prevent from error:
+            //     Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built with JVM target 1.6. Please specify proper '-jvm-target' option
+            jvmTarget = "1.8"
+        }
     }
 }

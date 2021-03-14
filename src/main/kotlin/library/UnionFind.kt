@@ -19,18 +19,18 @@ class UnionFind(n: Int) {
 
     /** O(α(n)) */
     fun unite(x: Int, y: Int) {
-        val x = findRoot(x)
-        val y = findRoot(y)
-        if (x == y) return
+        val xRoot = findRoot(x)
+        val yRoot = findRoot(y)
+        if (xRoot == yRoot) return
 
-        if (rank[x] < rank[y]) {
-            parent[x] = y
-            size[y] += size[x]
+        if (rank[xRoot] < rank[yRoot]) {
+            parent[xRoot] = yRoot
+            size[yRoot] += size[xRoot]
         } else {
-            parent[y] = x
-            if (rank[x] == rank[y]) rank[x]++
+            parent[yRoot] = xRoot
+            if (rank[xRoot] == rank[yRoot]) rank[xRoot]++
 
-            size[x] += size[y]
+            size[xRoot] += size[yRoot]
         }
     }
 
