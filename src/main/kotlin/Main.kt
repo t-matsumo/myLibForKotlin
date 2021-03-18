@@ -18,9 +18,10 @@ fun main() {
 fun solve() {
 }
 
+fun readLine() = br.readLine()!!
 fun readInteger() = Integer.parseInt(br.readLine())
 fun readLong() = java.lang.Long.parseLong(br.readLine())
-fun readStringList() = br.readLine()!!.split(' ')
-fun readIntegerList() = readStringList().map(Integer::parseInt)
-fun readLongList() = readStringList().map(java.lang.Long::parseLong)
-fun readDoubleList() = readStringList().map(java.lang.Double::parseDouble)
+fun readStringList() = readLine().split(' ')
+fun readIntegerList() = readStringList().map(String::toInt)
+fun readLongList() = readStringList().map(String::toLong)
+fun readDoubleList() = readStringList().map(String::toDouble)
