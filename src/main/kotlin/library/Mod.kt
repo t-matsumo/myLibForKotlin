@@ -35,7 +35,7 @@ class ModInt private constructor(val value: Long, val mod: Long) {
     operator fun times(other: ModInt) = ModInt((value * other.value) % mod, mod)
 
     operator fun div(other: ModInt): ModInt {
-        if (other.value == 0L) throw ArithmeticException("/ by zero")
+        require(other.value != 0L) { "other.value is required not to be zero." }
         val value = (this.value * modInverse(other.value, mod)) % mod
         return ModInt(value, mod)
     }
@@ -51,8 +51,8 @@ class ModInt private constructor(val value: Long, val mod: Long) {
 
 /** O(log(m)) mod <= 2_147_483_648, n >= 0 */
 fun modPow(n: Long, m: Long, MOD: Long = (1L shl 31)): Long {
-    if (m < 0) throw ArithmeticException("The power of negative exponent is not integer.")
-    if (MOD <= 0) throw ArithmeticException("MOD <= 0")
+    require(m >= 0L) { "m is required to be positive number or zero." }
+    require(MOD > 0L) { "MOD is required to be positive number." }
 
     var ret = 1L
     var x = (n % MOD)
@@ -73,7 +73,7 @@ fun modInverse(n: Long, mod: Long = 1000000007L): Long {
     var a = n % mod
     if (a < 0) a += mod
 
-    if (a == 0L) throw ArithmeticException("n is not relatively prime to mod")
+    check(a != 0L) { "n is required to be relatively prime to mod." }
 
     var b = mod
     var u = 1L

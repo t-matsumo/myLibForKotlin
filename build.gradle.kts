@@ -28,9 +28,6 @@ tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
-            // config JVM target to 1.8 to prevent from error:
-            //     Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built with JVM target 1.6. Please specify proper '-jvm-target' option
-            jvmTarget = "1.8"
         }
     }
 }

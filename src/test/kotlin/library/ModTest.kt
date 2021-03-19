@@ -112,12 +112,6 @@ class ModTest {
             }
 
             @Test
-            fun divZero() {
-                val exception = assertThrows<ArithmeticException> { (modInt / zero).value }
-                assertEquals("/ by zero", exception.message)
-            }
-
-            @Test
             fun divInverse() = assertEquals(1, (modInt / modInt).value)
         }
 
@@ -164,35 +158,10 @@ class ModTest {
             assertEquals(1, modPow(2, 0, MOD))
             assertEquals(1, modPow(3, 0, MOD))
         }
-
-        @Test
-        fun negativeExponent() {
-            val exception = assertThrows<ArithmeticException> { modPow(2, -1, MOD) }
-            assertEquals("The power of negative exponent is not integer.", exception.message)
-
-            val exception2 = assertThrows<ArithmeticException> { modPow(2, -10, MOD) }
-            assertEquals("The power of negative exponent is not integer.", exception2.message)
-        }
-
-        @Test
-        fun zeroOrNegativeMod() {
-            val exception = assertThrows<ArithmeticException> { modPow(2, 10, 0) }
-            assertEquals("MOD <= 0", exception.message)
-            val exception2 = assertThrows<ArithmeticException> { modPow(2, 10, -10) }
-            assertEquals("MOD <= 0", exception2.message)
-        }
     }
 
     @Nested
     inner class ModInverseTest {
-        @Test
-        fun nIsNotRelativelyPrimeToMod() {
-            val exception = assertThrows<ArithmeticException> { modInverse(0, MOD) }
-            assertEquals("n is not relatively prime to mod", exception.message)
-            val exception2 = assertThrows<ArithmeticException> { modInverse(MOD * 3, MOD) }
-            assertEquals("n is not relatively prime to mod", exception2.message)
-        }
-
         @Test
         fun nIsNegative() {
             assertEquals(modPow(-10, MOD - 2, MOD), modInverse(-10, MOD))
