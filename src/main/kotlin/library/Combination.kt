@@ -1,5 +1,13 @@
 package library
 
+/** O(b) */
+fun combinationWithoutMod(a: Int, b: Int): Long {
+    require(a in 0..60) { "a must be in 0..60 for prevent to overflow" }
+    require(b in 0..a) { "b must be in 0..a" }
+    val tmpB = if (a < b * 2) a - b else b
+    return (1..tmpB).fold(1L) { acc, i -> (acc * (a - i + 1)) / i }
+}
+
 /**
  * O(n^2)
  * @param size 0..2000
