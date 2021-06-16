@@ -80,23 +80,23 @@ fun bfs(startNode: Int, edges: Array<MutableList<Edge>>): IntArray {
 /** ダイクストラ法 O(E * long(V)) with priority queue
  *  辺の重みが正
  */
-fun dijkstra(graph: Array<MutableList<Edge>>, startNode: Int, LINF: Long = Long.MAX_VALUE): LongArray {
-    val shortestDistanceArray = LongArray(graph.size) { LINF }
+fun dijkstra(graph: List<List<Edge>>, startNode: Int, LINF: Long = Long.MAX_VALUE): List<Long> {
+    val shortestDistanceList = MutableList(graph.size) { LINF }
     val nodeQueue = PriorityQueue<Distance>()
     nodeQueue.add(Distance(startNode, 0L))
-    shortestDistanceArray[startNode] = 0L
+    shortestDistanceList[startNode] = 0L
     while (nodeQueue.isNotEmpty()) {
         val distance = nodeQueue.remove()
-        if (shortestDistanceArray[distance.to] < distance.cost) continue
+        if (shortestDistanceList[distance.to] < distance.cost) continue
         for (edge in graph[distance.to]) {
             val cost = distance.cost + edge.cost
-            if (cost < shortestDistanceArray[edge.to]) {
-                shortestDistanceArray[edge.to] = cost
+            if (cost < shortestDistanceList[edge.to]) {
+                shortestDistanceList[edge.to] = cost
                 nodeQueue.add(Distance(edge.to, cost))
             }
         }
     }
-    return shortestDistanceArray
+    return shortestDistanceList
 }
 
 /** ベルマンフォード法 O(EV)
@@ -122,6 +122,81 @@ fun bellmanFord(nodeNum: Int, edges: MutableList<Edge>, startNode: Int, LINF: Lo
         }
     }
     return Pair(hasNegativeCycle, shortestDistanceArray)
+}
+
+/**
+ * graph: 0-indexed graph
+ * 強連結成分分解をする
+ */
+class SCC(private val graph: List<List<Edge>>) {
+    private val reverseGraph: List<List<Edge>>
+
+    init {
+        val reverseGraph = List(graph.size) { mutableListOf<Edge>() }
+        for (edges in graph) {
+            for (edge in edges) {
+                reverseGraph[edge.to].add(Edge(edge.to, edge.from, edge.cost))
+            }
+        }
+        this.reverseGraph = reverseGraph
+    }
+
+    /**
+     * O(n)のはず？違くない？
+     * @return 強連結成分分解をした結果 外側のListはトポロジカルソートされている。
+     */
+    fun build(): List<List<Int>> {
+        val numArray = mutableListOf<Int>()
+        val checkingIndexFor = IntArray(graph.size)
+        val isChecked = BooleanArray(graph.size)
+        val nodeStack = ArrayDeque<Int>()
+        for (startNode in graph.indices) {
+            if (isChecked[startNode]) continue
+
+            nodeStack.addLast(startNode)
+            isChecked[startNode] = true
+            while (nodeStack.isNotEmpty()) {
+                val node = nodeStack.peekLast()
+                for (i in checkingIndexFor[node]..graph[node].lastIndex) {
+                    val to = graph[node][i].to
+                    if (!isChecked[to]) {
+                        isChecked[to] = true
+                        nodeStack.addLast(to)
+                        checkingIndexFor[node] = i + 1
+                        break
+                    }
+                }
+
+                if (node == nodeStack.peekLast()) {
+                    nodeStack.removeLast()
+                    numArray.add(node)
+                }
+            }
+        }
+
+        val scc = mutableListOf<MutableList<Int>>()
+        isChecked.fill(false)
+        for (startNode in numArray.reversed()) {
+            if (isChecked[startNode]) continue
+
+            val list = mutableListOf<Int>()
+            nodeStack.addLast(startNode)
+            isChecked[startNode] = true
+            while (nodeStack.isNotEmpty()) {
+                val node = nodeStack.removeLast()
+                list.add(node)
+                for (edge in reverseGraph[node]) {
+                    if (!isChecked[edge.to]) {
+                        isChecked[edge.to] = true
+                        nodeStack.addLast(edge.to)
+                    }
+                }
+            }
+
+            scc.add(list)
+        }
+        return scc
+    }
 }
 
 /** direction */
