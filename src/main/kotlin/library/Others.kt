@@ -21,3 +21,17 @@ fun polynomialDivision(n: Int, m: Int, aList: List<Long>, cList: List<Long>) {
 
     println(ans.joinToString(" "))
 }
+
+// スタックオーバーフローの最終手段
+//import kotlin.system.exitProcess
+//
+//@OptIn(ExperimentalStdlibApi::class)
+//fun main() {
+//    val func = Runnable {
+//        solve()
+//        out.flush()
+//    }
+//    val thread = Thread(null, func, "func", 128*1024*1024)
+//    thread.setUncaughtExceptionHandler { _, e -> e.printStackTrace(); exitProcess(1) }
+//    thread.start()
+//}
