@@ -1,7 +1,5 @@
 import java.io.PrintWriter
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.*
 
 val br = System.`in`.bufferedReader()
 val out = PrintWriter(System.out.bufferedWriter())
