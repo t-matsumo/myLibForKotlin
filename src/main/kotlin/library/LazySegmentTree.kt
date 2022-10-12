@@ -39,6 +39,9 @@ class LazySegmentTree<S, F>(
         id
     )
 
+    /**
+     * O(n)
+     */
     init {
         var bottomSize = 1
         var height = 0
@@ -52,12 +55,8 @@ class LazySegmentTree<S, F>(
         tree = MutableList(2 * bottomSize) { e() }
         lazyTree = MutableList(bottomSize) { id() }
 
-        for (i in list.indices) {
-            tree[i + bottomSize] = list[i]
-        }
-        for (i in (bottomSize - 1) downTo 1) {
-            update(i)
-        }
+        for (i in list.indices) tree[i + bottomSize] = list[i]
+        for (i in (bottomSize - 1) downTo 1) update(i)
     }
 
     /**
@@ -79,21 +78,6 @@ class LazySegmentTree<S, F>(
         val p = p + bottomSize
         for (i in height downTo 1) push(p shr i)
         return tree[p]
-    }
-
-    private fun update(k: Int) {
-        tree[k] = op(tree[k * 2], tree[k * 2 + 1])
-    }
-
-    private fun allApply(k: Int, f: F) {
-        tree[k] = mapping(f, tree[k])
-        if (k < bottomSize) lazyTree[k] = composition(f, lazyTree[k])
-    }
-
-    private fun push(k: Int) {
-        allApply(2 * k, lazyTree[k])
-        allApply(2 * k + 1, lazyTree[k])
-        lazyTree[k] = id()
     }
 
     /**
@@ -143,24 +127,38 @@ class LazySegmentTree<S, F>(
             if (l shr i shl i != l) push(l shr i)
             if (r shr i shl i != r) push(r - 1 shr i)
         }
-        run {
-            val l2 = l
-            val r2 = r
-            while (l < r) {
-                if (l and 1 == 1) allApply(l++, f)
-                if (r and 1 == 1) allApply(--r, f)
-                l = l shr 1
-                r = r shr 1
-            }
-            l = l2
-            r = r2
+
+        val l2 = l
+        val r2 = r
+        while (l < r) {
+            if (l and 1 == 1) allApply(l++, f)
+            if (r and 1 == 1) allApply(--r, f)
+            l = l shr 1
+            r = r shr 1
         }
+        l = l2
+        r = r2
+
         for (i in 1..height) {
             if (l shr i shl i != l) update(l shr i)
             if (r shr i shl i != r) update(r - 1 shr i)
         }
     }
 
+    private fun update(k: Int) {
+        tree[k] = op(tree[k * 2], tree[k * 2 + 1])
+    }
+
+    private fun allApply(k: Int, f: F) {
+        tree[k] = mapping(f, tree[k])
+        if (k < bottomSize) lazyTree[k] = composition(f, lazyTree[k])
+    }
+
+    private fun push(k: Int) {
+        allApply(2 * k, lazyTree[k])
+        allApply(2 * k + 1, lazyTree[k])
+        lazyTree[k] = id()
+    }
 
     // 二分探索をいつか実装したい
 }
