@@ -21,12 +21,6 @@ tasks.test {
     }
 }
 
-tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
-    compilerOptions {
-        freeCompilerArgs.add("-jvm-target 19")
-    }
-}
-
 kotlin {
     jvmToolchain(19)
 }
