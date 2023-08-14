@@ -1,3 +1,5 @@
+val jvmToolchainVersion: String by project
+
 plugins {
     kotlin("jvm") version "1.8.20"
 }
@@ -22,5 +24,5 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(19)
+    jvmToolchain(jvmToolchainVersion.toInt())
 }
