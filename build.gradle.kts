@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+val jvmToolchainVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.3.71"
+    kotlin("jvm") version "1.8.20"
 }
 
 group = "org.example"
@@ -12,22 +12,17 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+//    testImplementation(kotlin("test")) // The Kotlin test library いつか移行する
 }
 
-tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
+}
 
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
-        }
-    }
+kotlin {
+    jvmToolchain(jvmToolchainVersion.toInt())
 }
